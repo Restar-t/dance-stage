@@ -18,7 +18,13 @@ class MainActivity : ComponentActivity() {
 
                 if (isLoggedIn) {
                     // 如果已登录，显示主界面
-                    MainScreen()
+                    MainScreen(
+                        // 传入退出登录的逻辑
+                        onLogout = {
+                            saveLoginStatus(false) // 清除登录状态
+                            isLoggedIn = false     // 更新UI
+                        }
+                    )
                 } else {
                     // 如果未登录，显示登录界面
                     LoginScreen(

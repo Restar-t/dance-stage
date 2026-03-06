@@ -13,11 +13,14 @@ import com.example.prismstage.ui.components.BottomNavBar
 import com.example.prismstage.ui.components.NavBarScreen
 import com.example.prismstage.ui.screens.HomeScreen
 import com.example.prismstage.ui.screens.LibraryScreen
+// 确保导入路径正确
 import com.example.prismstage.ui.screens.ProfileScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen() {
+fun MainScreen(
+    onLogout: () -> Unit // 从MainActivity接收退出回调
+) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -42,7 +45,8 @@ fun MainScreen() {
             NavHost(navController = navController, startDestination = NavBarScreen.Home.route) {
                 composable(NavBarScreen.Home.route) { HomeScreen() }
                 composable(NavBarScreen.Library.route) { LibraryScreen() }
-                composable(NavBarScreen.Profile.route) { ProfileScreen() }
+                // 把回调传递给ProfileScreen
+                composable(NavBarScreen.Profile.route) { ProfileScreen(onLogout = onLogout) }
             }
         }
     }
